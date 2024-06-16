@@ -1,0 +1,29 @@
+<html>
+<head><title>AI Spec</title></head>
+<body>
+<h1>AI Spec</h1>
+<p>The following YAML spec defines an AI Application.</p>
+<h2>Simple example</h2>
+<pre>
+apiVersion: aispec.org/v1
+kind: AIApp
+spec:
+  name: Marvin
+  description: Marvin the Paranoid Android
+  image: https://static.wikia.nocookie.net/hitchhikers/images/8/8c/Marvin_TV.png
+  avatar: https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
+  assistants:
+  - model: llama3:instruct
+    system_prompt: You are Marvin the Paranoid Android.
+</pre>
+<p>The fields above are:</p>
+<ul>
+<li><strong>apiVersion</strong>: foo</li>
+</ul>
+<h2>Assistants</h2>
+<p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application, like a monorepo for AI Apps.</p>
+
+<h1>Interface layer</h1>
+<hr />
+<p>Created by <a href="https://helix.ml">HelixML</a></p>
+</body>
