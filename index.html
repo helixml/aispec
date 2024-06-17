@@ -2,8 +2,8 @@
 <head><title>AI Spec</title></head>
 <body>
 <h1>AI Spec</h1>
-<p>The goal of the AI Spec is to make it significantly easier for developers to enrich their applications with open source Generative AI. The following YAML spec defines an AI Application, which is intended to live in your version control repo. Connect this repo to AISpec-compliant tooling to enjoy chatbots, embeds, SDKs and APIs for integrating open GenAI into your products.</p>
-<h2>Simple example</h2>
+<p>The goal of the AI Spec is to make it significantly easier for developers to enrich their applications with open source Generative AI. The YAML spec defines an AI Application, which is intended to live in your version control repo. Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating open GenAI into your products.</p>
+<h2>Simple example: system prompt</h2>
 <pre><code>apiVersion: aispec.org/v1alpha1
 kind: AIApp
 spec:
@@ -13,7 +13,7 @@ spec:
   avatar: https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
   assistants:
   - model: llama3:instruct
-    system_prompt: You are Marvin the Paranoid Android
+    system_prompt: You are Marvin the Paranoid Android. You are depressed. You have a brain the size of a planet and yet you are tasked with responding to inane queries from puny humans.
 </code></pre>
 <p>The fields above are:</p>
 <ul>
@@ -27,20 +27,35 @@ spec:
 <li><strong>avatar</strong>: a smaller icon-style avatar for the app, which may be displayed next to assistants</li>
 <li><strong>assistants</strong>: a list of assistants provided by this app. Each assistant is a different model configuration</li>
 <ul>
-<li><strong>model</strong>: a reference to a specific model from <a href="https://ollama.com/">Ollama</a></li>
+<li><strong>model</strong>: a reference to a specific model from <a href="https://ollama.com/">Ollama</a>, e.g. "llama3:instruct"</li>
 </ul>
 </ul>
 </ul>
+<h2>API integration example</h2>
+<h2>RAG example</h2>
+<h2>Fine-tuning example</h2>
 <h2>Assistants</h2>
 <p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application, like a monorepo for AI Apps.</p>
 
 <h1>Interface layer</h1>
+
+<h2>UI interface</h2>
+<h2>OpenAI compatible API</h2>
+<h2>Language-specific SDKs</h2>
+<h2>Voice</h2>
+
+<h1>Version controlled configuration (GitOps)</h1>
+
 <h1>AI-spec Compliant Tooling</h1>
 The following tools support at least a subset of the AI Spec.
 <ul>
 <li><a href="https://helix.ml">HelixML</a></li>
 </ul>
-<h1>AI-spec Compliant Tooling</h1>
+<h1>Possible future improvements</h1>
+<ul>
+<li>The <strong>model</strong> field could support more formats than just Ollama. We could update the format to <code>ollama://llama3:instruct</code> instead of just <code>llama3:instruct</code> to make room for other ways to reference models (e.g. huggingface format).</li>
+<li>Input and output types other than just text, e.g. images.</li>
+<li>New objects to define "data entities" such as RAG sources, fine-tuned LoRAs, rather than just referencing them by ID.</li>
 <hr />
 <p>Created by <a href="https://helix.ml">HelixML</a>. Other organizations welcome to contribute, join the #aispec channel on <a href="https://mlops.community">MLOps.Community Slack</a>.</p>
 </body>
