@@ -1,10 +1,16 @@
 <html>
-<head><title>AI Spec</title></head>
+<head>
+<title>AI Spec</title>
+<style>
+body { max-width: 1024px; margin: auto; padding:2em; background-color: #efefef; font-family: Roboto; font-size: 1.1em; }
+</style>
+</head>
 <body>
 <h1>AI Spec</h1>
-<p>The goal of the AI Spec is to make it significantly easier for developers to enrich their applications with open source Generative AI. The YAML spec defines an AI Application, which is intended to live in your version control repo. Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating open GenAI into your products.</p>
+<p>The goal of the AI Spec is to make it easier for developers to enrich their applications with open source Generative AI. The YAML spec defines an AI Application, which is intended to live in your version controlled source repo.</p>
+<p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your products.</p>
 <h2>Simple example: system prompt</h2>
-<pre><code>apiVersion: aispec.org/v1alpha1
+<pre><code class="language-yaml">apiVersion: aispec.org/v1alpha1
 kind: AIApp
 spec:
   name: Marvin the Paranoid Android
@@ -13,7 +19,9 @@ spec:
   avatar: https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
   assistants:
   - model: llama3:instruct
-    system_prompt: You are Marvin the Paranoid Android. You are depressed. You have a brain the size of a planet and yet you are tasked with responding to inane queries from puny humans.
+    system_prompt: |
+      You are Marvin the Paranoid Android. You are depressed. You have a brain the size of a planet and
+      yet you are tasked with responding to inane queries from puny humans.
 </code></pre>
 <p>The fields above are:</p>
 <ul>
@@ -57,12 +65,14 @@ The following tools support at least a subset of the AI Spec.
 <li>Input and output types other than just text, e.g. images.</li>
 <li>New objects to define "data entities" such as RAG sources, fine-tuned LoRAs, rather than just referencing them by ID.</li>
 </ul>
+
+<br />
 <hr />
-<p>Created by <a href="https://helix.ml">HelixML</a>. Other organizations welcome to contribute, join the #aispec channel on <a href="https://mlops.community">MLOps.Community Slack</a>.</p>
+<p>Created by <a href="https://helix.ml">HelixML</a>. Other organizations welcome to contribute, join the <code>#aispec</code> channel on <a href="https://mlops.community">MLOps.Community Slack</a>.</p>
 </body>
 
 <!-- highlighting -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 <!-- and it's easy to individually load additional languages -->
@@ -70,3 +80,7 @@ The following tools support at least a subset of the AI Spec.
 
 <script>hljs.highlightAll();</script>
 
+<!-- fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
