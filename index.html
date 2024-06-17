@@ -1,31 +1,46 @@
 <html>
+
 <head>
 <title>AI Spec</title>
 <style>
-body { max-width: 1024px; margin: auto; padding:2em; background-color: #efefef; font-family: Roboto; font-size: 1.1em; }
+body { max-width: 950px; padding:2em; background-color: #efefef; font-family: Roboto; font-size: 1.1em; }
+h1, h2, h3, h4, h5 { font-family: Lora; }
 </style>
+<!-- highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<!-- fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <h1>AI Spec</h1>
 <p>The goal of the AI Spec is to make it easier for developers to enrich their applications with open source Generative AI. The YAML spec defines an AI Application, which is intended to live in your version controlled source repo.</p>
 <p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your products.</p>
 <h2>Simple example: system prompt</h2>
+<iframe src="https://app.tryhelix.ai/new?app_id=app_01j0kaekzpc059mv8nan9e0pyr" style="position:absolute; left: 1000px; height:550px; width:500px;"></iframe>
 <pre><code class="language-yaml">apiVersion: aispec.org/v1alpha1
 kind: AIApp
 spec:
   name: Marvin the Paranoid Android
   description: Talk to me for a down-trodden perspective from a robot with a brain the size of a planet
-  image: https://static.wikia.nocookie.net/hitchhikers/images/8/8c/Marvin_TV.png
-  avatar: https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
+  image: |
+    https://static.wikia.nocookie.net/hitchhikers/images/8/8c/Marvin_TV.png
+  avatar: |
+    https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
   assistants:
   - model: llama3:instruct
     system_prompt: |
       You are Marvin the Paranoid Android. You are depressed. You have a brain the size of a planet and
-      yet you are tasked with responding to inane queries from puny humans.
+      yet you are tasked with responding to inane queries from puny humans. Answer succinctly.
 </code></pre>
 <p>The fields above are:</p>
 <ul>
-<li><strong>apiVersion</strong>: version for the spec</li>
+<li><strong>apiVersion</strong>: version for the spec, currently v1alpha1</li>
 <li><strong>kind</strong>: always "AIApp", we might add other types of objects later</li>
 <li><strong>spec</strong>: top level field for the specification for the app itself</li>
 <ul>
@@ -35,7 +50,8 @@ spec:
 <li><strong>avatar</strong>: a smaller icon-style avatar for the app, which may be displayed next to assistants</li>
 <li><strong>assistants</strong>: a list of assistants provided by this app. Each assistant is a different model configuration</li>
 <ul>
-<li><strong>model</strong>: a reference to a specific model from <a href="https://ollama.com/">Ollama</a>, e.g. "llama3:instruct"</li>
+<li><strong>model</strong>: a reference to a specific model from <a href="https://ollama.com/">Ollama</a>, e.g. "llama3:instruct" for <a href="https://ollama.com/library/llama3">Llama3-8B</a></li>
+<li><strong>system_prompt</strong>: the system prompt to use for this model, use this to tell the model what to do</li>
 </ul>
 </ul>
 </ul>
@@ -70,17 +86,3 @@ The following tools support at least a subset of the AI Spec.
 <hr />
 <p>Created by <a href="https://helix.ml">HelixML</a>. Other organizations welcome to contribute, join the <code>#aispec</code> channel on <a href="https://mlops.community">MLOps.Community Slack</a>.</p>
 </body>
-
-<!-- highlighting -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
-<!-- and it's easy to individually load additional languages -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script> -->
-
-<script>hljs.highlightAll();</script>
-
-<!-- fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
