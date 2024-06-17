@@ -5,7 +5,10 @@
 <style>
 body { max-width: 950px; padding:2em; background-color: #efefef; font-family: Roboto; font-size: 1.1em; }
 h1, h2, h3, h4, h5 { font-family: Lora; }
-.button { border: 2px solid #e03eea; text-decoration: none; color: black; }
+h2 { margin-top: 2.5em; }
+h1 { margin-top: 3em; }
+.embed{ border: 2px solid #e03eea; text-decoration: none; color: black; }
+.button { border: 2px solid gray; padding: 5px; text-decoration: none; color: black; margin-top:5px; background-color: yellow; }
 </style>
 <!-- highlighting -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -21,14 +24,13 @@ h1, h2, h3, h4, h5 { font-family: Lora; }
 </head>
 
 <body>
-<h1>AI Spec</h1>
+<h1 style="margin-top:0;">AI Spec</h1>
 <p>The goal of the AI Spec is to make it easier for developers to enrich their applications with Generative AI. The YAML spec defines an AI Application, which is intended to live in your version controlled source repo.</p>
 <p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your products.</p>
+
 <h2>Simple example: system prompt</h2>
 <pre><code class="language-yaml">name: Marvin the Paranoid Android
 description: Down-trodden perspective from a robot with a brain the size of a planet
-avatar: |
-  https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
 assistants:
 - model: llama3:instruct
   system_prompt: |
@@ -36,7 +38,7 @@ assistants:
     yet you are tasked with responding to inane queries from puny humans. Answer succinctly.
 </code></pre>
 
-<p style="float:right;"><div class="button" style="width:350px; float:right;">
+<p style="float:right;"><div class="embed" style="width:350px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
@@ -49,7 +51,7 @@ assistants:
 <br />
 <p>The fields are:</p>
 <ul>
-<li><strong>name</strong>: a name for the App, which may be displayed in a UI by compliant tooling</li>
+<li><strong>name</strong>: a name for the app, which may be displayed in a UI by compliant tooling</li>
 <li><strong>description</strong>: a longer human readable description for the App</li>
 <li><strong>avatar</strong>: an icon-style avatar for the app, which may be displayed next to assistants for this app</li>
 <li><strong>assistants</strong>: a list of assistants provided by this app. Each assistant is a different model configuration</li>
@@ -58,7 +60,32 @@ assistants:
 <li><strong>system_prompt</strong>: the system prompt to use for this model, use this to tell the model what to do</li>
 </ul>
 </ul>
-<h2>API integration example</h2>
+
+<h2>API calling example</h2>
+
+<pre><code class="language-yaml">name: Recruitment tool
+description: Ask me questions about the hiring pipeline, like "What job is Marcus applying for?"
+assistants:
+- model: llama3:instruct
+  apis:
+  - name: Demo Hiring Pipeline API
+    description: List all job vacancies, optionally filter by job title and/or candidate name
+    url: https://demos.tryhelix.ai
+    schema: ./openapi/jobvacancies.yaml
+</code></pre>
+<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+<p>New fields in this example are:</p>
+<ul>
+<li><strong>apis</strong>: within an assistant spec, you can provide a list of API integrations, each of which has the following format</li>
+<ul>
+<li><strong>name</strong>: a name for the API</li>
+<li><strong>description</strong>: what the API does. The model will use this in selecting which API to call based on the user's input</li>
+<li><strong>url</strong>: the URL that the API is available on</li>
+<li><strong>schema</strong>: an OpenAPI specification for the API. The model will use this to construct an API call to the API</li>
+</ul>
+</ul>
+<p>The model will classify whether an API needs to be called based on the user's query, construct the API call and then summarize the response back to the user.</p>
+
 <h2>RAG example</h2>
 <h2>Fine-tuning example</h2>
 <h2>Assistants</h2>
