@@ -81,7 +81,7 @@ assistants:
 <li><strong>name</strong>: a name for the API</li>
 <li><strong>description</strong>: what the API does. The model will use this in selecting which API to call based on the user's input</li>
 <li><strong>url</strong>: the URL that the API is available on</li>
-<li><strong>schema</strong>: an OpenAPI specification for the API. The model will use this to construct an API call to the API</li>
+<li><strong>schema</strong>: an OpenAPI specification for the API. The model will use this to construct a request to the API. In this example, we use <a href="https://github.com/helixml/example-helix-app/blob/main/openapi/jobvacancies.yaml">this spec</a></li>
 </ul>
 </ul>
 <p>The model will classify whether an API needs to be called based on the user's query, construct the API call and then summarize the response back to the user.</p>
