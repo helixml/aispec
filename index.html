@@ -206,12 +206,11 @@ Output the exact image url from the CSV file, do not invent one. Output format:
 }]
 </code></pre>
 
-<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
 <p>New fields in this example (for a given assistant) are:</p>
 <ul>
-<li><strong>lora_id</strong>: the ID of a fine-tuned model file in a compliant tool's store</li>
+<li><strong>gptscripts</strong>: a list of objects mapping "file" onto glob patterns to match gptscripts in the same repo
 </ul>
-<p>The LoRA adapter is the result of additional training (known as "fine tuning") on new data. The assistant will load the LoRA adapter (a "diff" on the weights of the model) which allows the model to learn style and knowledge from the content. The model will be able to replicate the style and knowledge in the data it was fine-tuned on.</p>
+<p><a href="https://gptscript.ai/">GPTScript</a> is a powerful and flexible tool for writing natural language "scripts" that can call tools (including other scripts). This provides 'code interpreter' like functionality, as well as the ability for the AI to use browsers, execute commands, read and write files, and lots more. In this example, we use a sqlite database of recipes, ingredients and purchase histories to provide personalized recommendations for recipes.</p>
 
 
 <h1>Interface layer</h1>
