@@ -20,7 +20,7 @@ h1 { margin-top: 3em; }
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <!-- helix chat embed -->
-<script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed"></script>
+<script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed@0.3.3"></script>
 </head>
 
 <body>
@@ -46,12 +46,12 @@ assistants:
     yet you are tasked with responding to inane queries from puny humans. Answer succinctly.
 </code></pre>
 
-<p style="float:right;"><div class="embed" style="width:350px; float:right;">
+<p style="float:right;"><div class="embed" style="width:360px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
     model: 'llama3:instruct',
-    placeholder: "Run",
+    placeholder: "What planet are you from?",
     bearerToken: 'hl-8PYtqUpSXHg-v0mIgVx8mrgQ-wHn5VBNpb7NxixYQcM=',
   })
 </script>
@@ -81,7 +81,17 @@ assistants:
     url: https://demos.tryhelix.ai
     schema: ./openapi/jobvacancies.yaml
 </code></pre>
-<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<script>
+  ChatWidget({
+    url: 'https://app.tryhelix.ai/v1/chat/completions',
+    model: 'llama3:instruct',
+    placeholder: "What job is Marcus applying for?",
+    bearerToken: 'hl-EmIkcVkgPXI_-j-GzevN0kqebec4AWKFkeWoUWrauFc=',
+  })
+</script>
+</div></p>
+<br />
 <p>New fields in this example (for a given assistant) are:</p>
 <ul>
 <li><strong>apis</strong>: within an assistant spec, you can provide a list of API integrations, each of which has the following format</li>
@@ -102,6 +112,18 @@ assistants:
 - model: llama3:instruct
   rag_source_id: af9b4dc8-cc10-4e21-9a5f-bc1f12b6cab9
 </code></pre>
+
+<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<script>
+  ChatWidget({
+    url: 'https://app.tryhelix.ai/v1/chat/completions',
+    model: 'llama3:instruct',
+    placeholder: "What are the pros and cons of inkjets versus laser printers?",
+    bearerToken: 'hl-wRTXGBKGnMCXseyXb1VLnmVJ01Gesfn-H1Kh6tHrwHY=',
+  })
+</script>
+</div></p>
+
 <p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
 <p>New fields in this example (for a given assistant) are:</p>
 <ul>
