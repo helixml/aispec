@@ -24,12 +24,16 @@ h1 { margin-top: 3em; }
 </head>
 
 <body>
-<h1 style="margin-top:0;">AI Spec</h1>
-<p>The goal of the AI Spec is to make it easier for developers to enrich their applications with Generative AI by supporting a common format across many runtimes. The spec defines an AI Application, which is intended to live in your version controlled source repository alongside your application code.</p>
+<h1 style="margin-top:0;">AI Spec Manifesto</h1>
+<p>The goal of the AI Spec is to make it easier for developers to enrich their applications with Generative AI by supporting a common format across many runtimes. The spec defines an <strong>AI Application</strong>, which is intended to live in your version controlled source repository alongside your application code.</p>
 <p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your products.</p>
 
+
 <h2>Apps have Assistants</h2>
-<p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application. Each assistant is a model, customized with prompts, data sources and APIs that it can call on behalf of the user or application. Assistants can respond with text or structured data.</p>
+
+<img src="diagram.png" style="width:100%" />
+
+<p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application. Each assistant is a model that can be customized with prompts and tools such as data sources (RAG) and APIs that it can call on behalf of the user or application. Assistants can respond with text or structured data.</p>
 
 
 <h2>Simple example: system prompt</h2>
@@ -65,7 +69,7 @@ assistants:
 </ul>
 </ul>
 
-<h2>API calling example</h2>
+<h2>API calling example: models can take actions</h2>
 
 <pre><code class="language-yaml">name: Recruitment tool
 description: Ask me questions about the hiring pipeline, like "What job is Marcus applying for?"
@@ -88,11 +92,93 @@ assistants:
 <li><strong>schema</strong>: an OpenAPI specification for the API. The model will use this to construct a request to the API. In this example, we use <a href="https://github.com/helixml/example-helix-app/blob/main/openapi/jobvacancies.yaml">this spec</a></li>
 </ul>
 </ul>
-<p>The model will classify whether an API needs to be called based on the user's query, construct the API call and then summarize the response back to the user.</p>
+<p>The assistant will classify whether an API needs to be called based on the user's query, construct the API call and then summarize the response back to the user.</p>
 
-<h2>RAG example</h2>
+<h2>RAG example: learning knowledge</h2>
+
+<pre><code class="language-yaml">name: Printer advice tool
+description: Ask me questions about printers
+assistants:
+- model: llama3:instruct
+  rag_source_id: af9b4dc8-cc10-4e21-9a5f-bc1f12b6cab9
+</code></pre>
+<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+<p>New fields in this example (for a given assistant) are:</p>
+<ul>
+<li><strong>rag_source_id</strong>: the ID of a RAG source in a compliant tool's vector database</li>
+</ul>
+<p>The assistant will search the vector database for relevant content to the user's query and include it in the prompt to the model, which will then have context to share with the user. This can be used to "teach" models about documents.</p>
+
+
 <h2>Fine-tuning example</h2>
+
+<pre><code class="language-yaml">name: Talk like Paul Graham
+description: Generate content in the style of Paul Graham's essays
+assistants:
+- model: llama3:instruct
+  lora_id: TODO from https://app.tryhelix.ai/session/ses_01j0n113spfdpabftychs6g7ct
+</code></pre>
+<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+<p>New fields in this example (for a given assistant) are:</p>
+<ul>
+<li><strong>lora_id</strong>: the ID of a fine-tuned model file in a compliant tool's store</li>
+</ul>
+<p>The LoRA adapter is the result of additional training (known as "fine tuning") on new data. The assistant will load the LoRA adapter (a "diff" on the weights of the model) which allows the model to learn style and knowledge from the content. The model will be able to replicate the style and knowledge in the data it was fine-tuned on.</p>
+
+
 <h2>GPTScript</h2>
+
+<pre><code class="language-yaml">name: Generate recipe recommendations
+description: For a given customer, recommend recipes based on their purchase history
+assistants:
+- model: llama3:instruct
+  gptscripts:
+   - file: scripts/waitrose.gpt
+</code></pre>
+
+<pre><code class="language-text">name: Generate recipe recommendations
+tools: recipe.query, purchases.query, sys.read
+args: user_id: The user_id we want to know about.
+args: recipe_theme: The theme of the recipes.
+args: number: The number of recipes to output.
+
+Do the following steps sequentially and only write and read files as instructed:
+  1. Run tool {recipe.query} to get a list of candidate recipes for the given
+     user as a CSV file written to recipes.csv.
+  2. Run tool {purchases.query} to get a list of the top 10 products most
+     bought by the given user written to purchases.csv.
+  3. Read files recipes.csv (the suggested recipes) and purchases.csv (the
+     user's previous top purchase history) and output a JSON list of {number},
+     {recipe_theme} theme recipes that you think the user would like based on
+     their purchase history.
+
+Format the final output in a strict JSON format.
+Format the output to display recipe details including name, summary, and image URL.
+In the summary, justify to the user why they would like the recipe.
+
+For example, say in the summary (do NOT include parts in square brackets) "We
+thought you would like this recipe because you have previously bought cod and
+potatoes [previously purchased products]. It matches heart healthy [chosen
+theme] because [insert justification based on nutritional information]"
+
+Only include previously purchased products that appear in the recipe.
+
+Output the exact image url from the CSV file, do not invent one. Output format:
+
+[{
+  "recipe.name": "name",
+  "recipe.summary": "summary",
+  "recipe.imageurl": "imageurl"
+}]
+</code></pre>
+
+<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+<p>New fields in this example (for a given assistant) are:</p>
+<ul>
+<li><strong>lora_id</strong>: the ID of a fine-tuned model file in a compliant tool's store</li>
+</ul>
+<p>The LoRA adapter is the result of additional training (known as "fine tuning") on new data. The assistant will load the LoRA adapter (a "diff" on the weights of the model) which allows the model to learn style and knowledge from the content. The model will be able to replicate the style and knowledge in the data it was fine-tuned on.</p>
+
 
 <h1>Interface layer</h1>
 
@@ -104,6 +190,10 @@ assistants:
 
 <h1>Version controlled configuration (GitOps)</h1>
 
+<h1>Kubernetes Integration (CRDs)</h1>
+
+<p>Take a 
+
 <h1>AI-spec Compliant Tooling</h1>
 The following tools support at least a subset of the AI Spec.
 <ul>
@@ -113,7 +203,7 @@ The following tools support at least a subset of the AI Spec.
 <ul>
 <li>The <strong>model</strong> field could support more formats than just Ollama. We could update the format to <code>ollama://llama3:instruct</code> instead of just <code>llama3:instruct</code> to make room for other ways to reference models (e.g. huggingface format).</li>
 <li>Input and output types other than just text, e.g. images.</li>
-<li>New objects to define "data entities" such as RAG sources, fine-tuned LoRAs, rather than just referencing them by ID.</li>
+<li>New objects to declaratively define "data entities" such as RAG sources and fine-tuned LoRAs, rather than just referencing them by ID.</li>
 </ul>
 
 <br />
