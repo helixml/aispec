@@ -137,13 +137,25 @@ assistants:
 <pre><code class="language-yaml">name: Talk like Paul Graham
 description: Generate content in the style of Paul Graham's essays
 assistants:
-- model: llama3:instruct
-  lora_id: TODO from https://app.tryhelix.ai/session/ses_01j0n113spfdpabftychs6g7ct
+- model: mistralai/Mistral-7B-Instruct-v0.1
+  lora_id: 29e0e2a3-639d-4b3e-863a-12a66023f970
 </code></pre>
-<p style="text-align:right;"><a href="https://app.tryhelix.ai/new?app_id=app_01j0ke73c703awdmjghmmb059g" target="_blank" class="button">Run</a></p>
+
+<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<script>
+  ChatWidget({
+    url: 'https://app.tryhelix.ai/v1/chat/completions',
+    model: 'mistralai/Mistral-7B-Instruct-v0.1',
+    placeholder: "Write an article about Yahoo in the style of Paul Graham",
+    bearerToken: 'hl-mGBAYXujI2HfMT-YOLY6V85I2J4_qOveRyuj3SL0OEU=',
+  })
+</script>
+</div></p>
+
+<br />
 <p>New fields in this example (for a given assistant) are:</p>
 <ul>
-<li><strong>lora_id</strong>: the ID of a fine-tuned model file in a compliant tool's store</li>
+<li><strong>lora_id</strong>: the ID of a fine-tuned model file in a compliant tool's store. In this case the model was fine-tuned on <a href="https://www.paulgraham.com/reddits.html">this Paul Graham article</a></li>
 </ul>
 <p>The LoRA adapter is the result of additional training (known as "fine tuning") on new data. The assistant will load the LoRA adapter (a "diff" on the weights of the model) which allows the model to learn style and knowledge from the content. The model will be able to replicate the style and knowledge in the data it was fine-tuned on.</p>
 
