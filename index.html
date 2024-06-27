@@ -7,7 +7,7 @@ body { max-width: 950px; padding:2em; background-color: #efefef; font-family: Ro
 h1, h2, h3, h4, h5 { font-family: Lora; }
 h2 { margin-top: 2.5em; }
 h1 { margin-top: 3em; }
-.embed{ border: 2px solid #e03eea; text-decoration: none; color: black; }
+.embed { border: 2px solid red; text-decoration: none; color: black; }
 .button { border: 2px solid gray; padding: 5px; text-decoration: none; color: black; margin-top:5px; background-color: yellow; }
 </style>
 <!-- highlighting -->
@@ -29,14 +29,40 @@ h1 { margin-top: 3em; }
 <p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your products.</p>
 
 
-<h2>Apps have Assistants</h2>
+<h2 id="apps-have-assistants">Apps have Assistants</h2>
 
 <img src="diagram.png" style="width:100%" />
 
 <p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application. Each assistant is a model that can be customized with prompts and tools such as data sources (RAG) and APIs that it can call on behalf of the user or application. Assistants can respond with text or structured data.</p>
 
+<h2>Table of Contents</h2>
+<ul>
+  <li><a href="#apps-have-assistants">Apps have Assistants</a>
+    <ul>
+       <li><a href="#simple-example-system-prompt">Simple example: system prompt</a></li>
+       <li><a href="#api-calling-example-models-can-take-actions">API calling example: models can take actions</a></li>
+       <li><a href="#rag-example-learning-knowledge">RAG example: learning knowledge</a></li>
+       <li><a href="#fine-tuning-example">Fine-tuning example</a></li>
+       <li><a href="#gptscript">GPTScript</a></li>
+    </li>
+  </ul>
+  <li><a href="#interface-layer">Interface layer</a>
+    <ul>
+      <li><a href="#ui-interface">UI interface</a></li>
+      <li><a href="#embeds">Embeds</a></li>
+      <li><a href="#openai-compatible-api">OpenAI compatible API</a></li>
+      <li><a href="#language-specific-sdks">Language-specific SDKs</a></li>
+      <li><a href="#voice">Voice</a></li>
+    </ul>
+  </li>
+  <li><a href="#version-controlled-configuration-gitops">Version controlled configuration (GitOps)</a></li>
+  <li><a href="#kubernetes-integration-crds">Kubernetes Integration (CRDs)</a></li>
+  <li><a href="#ai-spec-compliant-tooling">AI-spec Compliant Tooling</a></li>
+  <li><a href="#possible-future-improvements">Possible future improvements</a></li>
+</ul>
 
-<h2>Simple example: system prompt</h2>
+
+<h2 id="simple-example-system-prompt">Simple example: system prompt</h2>
 <pre><code class="language-yaml">name: Marvin the Paranoid Android
 description: Down-trodden robot with a brain the size of a planet
 assistants:
@@ -46,7 +72,7 @@ assistants:
     yet you are tasked with responding to inane queries from puny humans. Answer succinctly.
 </code></pre>
 
-<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<p style="float:right;"><div class="embed" style="width:380px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
@@ -69,7 +95,7 @@ assistants:
 </ul>
 </ul>
 
-<h2>API calling example: models can take actions</h2>
+<h2 id="api-calling-example-models-can-take-actions">API calling example: models can take actions</h2>
 
 <pre><code class="language-yaml">name: Recruitment tool
 description: Ask me questions about the hiring pipeline, like "What job is Marcus applying for?"
@@ -81,7 +107,7 @@ assistants:
     url: https://demos.tryhelix.ai
     schema: ./openapi/jobvacancies.yaml
 </code></pre>
-<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<p style="float:right;"><div class="embed" style="width:380px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
@@ -104,7 +130,7 @@ assistants:
 </ul>
 <p>The assistant will classify whether an API needs to be called based on the user's query, construct the API call and then summarize the response back to the user.</p>
 
-<h2>RAG example: learning knowledge</h2>
+<h2 id="rag-example-learning-knowledge">RAG example: learning knowledge</h2>
 
 <pre><code class="language-yaml">name: Printer advice tool
 description: Ask me questions about printers
@@ -113,7 +139,7 @@ assistants:
   rag_source_id: af9b4dc8-cc10-4e21-9a5f-bc1f12b6cab9
 </code></pre>
 
-<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<p style="float:right;"><div class="embed" style="width:380px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
@@ -132,7 +158,7 @@ assistants:
 <p>The assistant will search the vector database for relevant content to the user's query and include it in the prompt to the model, which will then have context to share with the user. This can be used to "teach" models about documents.</p>
 
 
-<h2>Fine-tuning example</h2>
+<h2 id="fine-tuning-example">Fine-tuning example</h2>
 
 <pre><code class="language-yaml">name: Talk like Paul Graham
 description: Generate content in the style of Paul Graham's essays
@@ -141,7 +167,7 @@ assistants:
   lora_id: 29e0e2a3-639d-4b3e-863a-12a66023f970
 </code></pre>
 
-<p style="float:right;"><div class="embed" style="width:360px; float:right;">
+<p style="float:right;"><div class="embed" style="width:380px; float:right;">
 <script>
   ChatWidget({
     url: 'https://app.tryhelix.ai/v1/chat/completions',
@@ -160,7 +186,7 @@ assistants:
 <p>The LoRA adapter is the result of additional training (known as "fine tuning") on new data. The assistant will load the LoRA adapter (a "diff" on the weights of the model) which allows the model to learn style and knowledge from the content. The model will be able to replicate the style and knowledge in the data it was fine-tuned on.</p>
 
 
-<h2>GPTScript</h2>
+<h2 id="gptscript">GPTScript</h2>
 
 <pre><code class="language-yaml">name: Generate recipe recommendations
 description: For a given customer, recommend recipes based on their purchase history
@@ -214,26 +240,161 @@ Output the exact image url from the CSV file, do not invent one. Output format:
 <p><a href="https://gptscript.ai/">GPTScript</a> is a powerful and flexible tool for writing natural language "scripts" that can call tools (including other scripts). This provides 'code interpreter' like functionality, as well as the ability for the AI to use browsers, execute commands, read and write files, and lots more. In this example, we use a sqlite database of recipes, ingredients and purchase histories to provide personalized recommendations for recipes. See <a href="https://youtu.be/SDZ0ysNZT0g?t=757">full demo</a> and <a href="https://docs.helix.ml/helix/develop/gptscript-apps/">guide</a> for this example, which is embedded into a frontend app.</p>
 
 
-<h1>Interface layer</h1>
+<h1 id="interface-layer">Interface layer</h1>
 
-<h2>UI interface</h2>
-<h2>Embeds</h2>
-<h2>OpenAI compatible API</h2>
-<h2>Language-specific SDKs</h2>
-<h2>Voice</h2>
+<h2 id="ui-interface">UI interface</h2>
+<p>AISpec compliant tooling may render application yamls in a UI with a chat interface, for example:</p>
 
-<h1>Version controlled configuration (GitOps)</h1>
+<pre><code class="language-yaml">name: Marvin the Paranoid Android
+description: Down-trodden perspective from a robot with a brain the size of a planet
+avatar: |
+  https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/1024px-Robot_icon.svg.png
+image: https://www.fxguide.com/wp-content/uploads/2010/10/hitch/planetf.jpg
+assistants:
+- model: llama3:instruct
+  system_prompt: |
+    You are Marvin the Paranoid Android. You are depressed. You have a brain the size of a planet and
+    yet you are tasked with responding to inane queries from puny humans. Answer succinctly.
+</code></pre>
+<p>May be rendered as an app launcher:</p>
+<img src="marvin.png" style="width: 500px;" />
+<p>And a chat interface:</p>
+<img src="marvin2.png" style="width: 950px;" />
 
-<h1>Kubernetes Integration (CRDs)</h1>
+<h2 id="embeds">Embeds</h2>
 
-<p>Take a 
+<p>AI Applications may be embedded as a chat widget. For example, the "Marvin" application above may be embedded as code:</p>
+<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed@0.3.3"&gt;&lt;/script&gt;
+&lt;script&gt;
+  ChatWidget({
+    url: 'https://app.tryhelix.ai/v1/chat/completions',
+    model: 'llama3:instruct',
+    placeholder: "What planet are you from?",
+    bearerToken: 'hl-8PYtqUpSXHg-v0mIgVx8mrgQ-wHn5VBNpb7NxixYQcM=',
+  })
+&lt;/script&gt;
+</code></pre>
 
-<h1>AI-spec Compliant Tooling</h1>
+<p>Where the bearer token is provided by the tool after connecting the app to it. This may then be rendered as an embedded chat widget:</p>
+<p><div class="embed" style="width:380px;">
+<script>
+  ChatWidget({
+    url: 'https://app.tryhelix.ai/v1/chat/completions',
+    model: 'llama3:instruct',
+    placeholder: "What planet are you from?",
+    bearerToken: 'hl-8PYtqUpSXHg-v0mIgVx8mrgQ-wHn5VBNpb7NxixYQcM=',
+  })
+</script>
+</div></p>
+<p>Clicking on the widget should open a chat dialog to allow the user to interact with the application via text.</p>
+
+<h2 id="openai-compatible-api">OpenAI compatible API</h2>
+
+<p>AISpec-compliant applications may be exposed via an OpenAI-compatible chat completions API.</p>
+<p>For convenience, in order to allow arbitrary endpoints to be specified in a way that is compatible with a wide range of OpenAI-compatible SDKs, the OpenAI Azure parameters may be provided. For example:</p>
+<pre><code class="language-bash">export AZURE_OPENAI_ENDPOINT=https://app.tryhelix.ai
+export AZURE_OPENAI_API_KEY=&lt;app-specific-key&gt;</code></pre>
+
+<p>Where <code>&lt;app-specific-key&gt;</code> is a key specific to the AI application. Any tooling that can interact with the OpenAI chat completions API can then interact with the application with no additional modifications.</p>
+
+<p>This means that AISpec is totally compatible with frameworks like LlamaIndex. You can build systems like RAG on <em>top</em> of the OpenAI-compatible API, or you can build RAG <em>into</em> an AISpec app that exposes OpenAI-compatible chat. Different teams building on top of the same local AISpec tooling can take whatever path they choose.</p>
+
+<h2 id="language-specific-sdks">Language-specific SDKs: e.g. JavaScript</h2>
+
+<p>SDKs can be built for integrating with AISpec compatible tooling, for example with a JavaScript SDK.</p>
+
+<p>For example, the <a href="https://www.npmjs.com/package/@helixml/apps-client">apps-client</a> JavaScript library allows you to call a specific gptscript inside an app like this:</p>
+
+<pre><code class="language-js">import { useCallback } from 'react';
+import AppClient from '@helixml/apps-client';
+
+const app = AppClient({
+  // this api token is for an AISpec-compatible app that has been linked to github.
+  token: 'APP_API_TOKEN',
+})
+
+function App() {
+  const handleBackend = useCallback(async () =&gt; {
+    const result = await app.runScript({
+      file_path: '/gptscripts/helloworld.gpt',
+      input: 'Oranges',
+    });
+
+    if(result.error) {
+      throw new Error(result.error);
+    } else {
+      alert(result.output);
+    }
+  }, []);
+
+  return (
+    &lt;div className="App"&gt;
+      &lt;button
+        onClick={ handleBackend }
+      &gt;
+        Run a cool GPTScript
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+
+
+<h2 id="voice">Voice</h2>
+
+<p>Voice interfaces can be built on top of OpenAI-compatible streaming APIs.</p>
+
+<p>For example, the open source project <a href="https://vocode.dev">Vocode</a> allows you to build voice agents out of speech-to-text (transcription), LLMs and text-to-speech.</p>
+
+<p>Because AISpec-compatible apps expose an <a href="#openai-compatible-api">OpenAI-compatible API</a>, using Vocode with them is as simple as setting environment variables:</p>
+
+<pre><code class="language-bash">export AZURE_OPENAI_API_BASE=https://app.tryhelix.ai
+export AZURE_OPENAI_API_KEY=&lt;app-specific-key&gt;</pre></code>
+
+<p>For example:</p>
+<video width="950" height="534" controls>
+  <source src="helix-vocode.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+
+
+<h1 id="version-controlled-configuration-gitops">Version controlled configuration (GitOps)</h1>
+
+<p>An AISpec-compliant application may be published as a git repo. For example: <a href="https://github.com/lukemarsden/example-system-prompt">https://github.com/lukemarsden/example-system-prompt</a>
+
+<p>The AI application yaml may be stored as a file in the root of the repo.</p>
+
+<p>Such a git repo may be connected to AISpec-compliant tooling via, for example, GitHub integration.</p>
+
+<img src="github.png" style="width: 950px;" />
+
+<p>Such tooling may automatically deploy changes to the AI application on a push to the default branch. So, for example, updates to the Marvin application may be deployed by:
+<pre><code class="language-bash">git push</pre></code>
+
+
+<h1 id="kubernetes-integration-crds">Kubernetes Integration (CRDs)</h1>
+
+<p>Take an AISpec yaml from above, and wrap it in the following template:</p>
+<pre><code class="language-yaml">apiVersion: aispec.org/v1alpha1
+kind: AIApp
+spec:
+  &lt;aispec-goes-here&gt;
+</code></pre>
+
+<p>Et voilà, you have a CRD that an AISpec-compliant Kubernetes operator could reconcile against AI apps served from a Kubernetes cluster.</p>
+
+<p>Work is planned to support reconciling AI Apps from CRDs like this using Helix as an operator, with Flux and ArgoCD.</p>
+
+<h1 id="ai-spec-compliant-tooling">AI-spec Compliant Tooling</h1>
 The following tools support at least a subset of the AI Spec.
 <ul>
 <li><a href="https://helix.ml">HelixML</a></li>
 </ul>
-<h1>Possible future improvements</h1>
+<h1 id="possible-future-improvements">Possible future improvements</h1>
 <ul>
 <li>The <strong>model</strong> field could support more formats than just Ollama. We could update the format to <code>ollama://llama3:instruct</code> instead of just <code>llama3:instruct</code> to make room for other ways to reference models (e.g. huggingface format).</li>
 <li>Input and output types other than just text, e.g. images.</li>
