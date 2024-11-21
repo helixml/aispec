@@ -78,6 +78,7 @@ h1 { margin-top: 3em; }
        <li><a href="#simple-example-system-prompt">Simple example: system prompt</a></li>
        <li><a href="#api-calling-example-models-can-take-actions">API calling example: models can take actions</a></li>
        <li><a href="#rag-example-learning-knowledge">RAG example: learning knowledge</a></li>
+       <li><a href="#testing">Testing</a></li>
        <li><a href="#fine-tuning-example">Fine-tuning example</a></li>
        <li><a href="#gptscript">GPTScript</a></li>
     </li>
@@ -210,10 +211,58 @@ spec:
 <br />
 <p>New fields in this example (for a given assistant) are:</p>
 <ul>
-<li><strong>rag_source_id</strong>: the ID of a RAG source in a compliant tool's vector database. In this case we added this <a href="https://www.connection.com/content/buying-guide/printer">printer buying guide</a></li>
+<li><strong>knowledge</strong>: a list of knowledge sources that can be used by the assistant</li>
+<ul>
+  <li><strong>name</strong>: an identifier for this knowledge source</li>
+  <li><strong>source.web</strong>: configuration for web-based knowledge sources</li>
+  <ul>
+    <li><strong>urls</strong>: list of URLs to crawl for knowledge</li>
+    <li><strong>crawler</strong>: crawler configuration settings</li>
+    <ul>
+      <li><strong>enabled</strong>: whether to follow links and crawl beyond the initial URLs</li>
+      <li><strong>max_depth</strong>: how many links deep to crawl (1 means just the initial pages)</li>
+      <li><strong>max_pages</strong>: maximum number of pages to crawl</li>
+      <li><strong>readability</strong>: whether to extract clean readable text from pages</li>
+    </ul>
+  </ul>
+  <li><strong>refresh_schedule</strong>: how often to refresh the knowledge (e.g. "@hourly" to check for updates hourly)</li>
+</ul>
 </ul>
 <p>The assistant will search the vector database for relevant content to the user's query and include it in the prompt to the model, which will then have context to share with the user. This can be used to "teach" models about documents.</p>
 
+
+<h2 id="testing">Testing</h2>
+
+<p>Tests defined in an AISpec application allow you to automate the testing of AISpec applications. It streamlines the process of validating your app's behavior by running predefined tests, evaluating responses, and generating comprehensive reports. This tool helps ensure that your AISpec app performs as expected, making it easier to maintain high-quality applications.</p>
+
+<p>With the AISpec Tests, you can:</p>
+
+<ul>
+<li>Define tests in your AISpec yaml file</li>
+<li>Run tests automatically with a simple command while developing locally</li>
+<li>Evaluate responses against expected outputs described in natural language</li>
+<li>Generate detailed reports in JSON, HTML, and Markdown formats</li>
+<li>Upload reports for easy sharing and analysis</li>
+<li>Integrate testing into your CI/CD pipelines by utilizing exit codes</li>
+</ul>
+
+<p>Tests are defined within your helix.yaml file under each assistant configuration. Each test consists of one or more steps, each with a prompt and the expected output.</p>
+<p>Here's the basic structure of how tests are defined in helix.yaml:</p>
+<pre><code class="language-yaml">assistants:
+  - name: assistant_name
+    model: model_name
+    tests:
+      - name: test_name
+        steps:
+          - prompt: "User input or question."
+            expected_output: "Expected assistant response."
+</code></pre>
+
+<p>For more information, see the complete <a href="https://github.com/helixml/helix/tree/main/examples/test">testing guide</a>.</p>
+
+<p>Also see this video for a walkthrough and live coding example:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XR2DicY1zEM?si=A_cfMWkU1KxA-7Mw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <h2 id="fine-tuning-example">Fine-tuning example</h2>
 
