@@ -393,13 +393,11 @@ export AZURE_OPENAI_API_KEY=&lt;app-specific-key&gt;</pre></code>
 </video>
 
 
-
-
 <h1 id="version-controlled-configuration-gitops">Version controlled configuration (GitOps)</h1>
 
 <p>An AISpec-compliant application may be published as a git repo. For example: <a href="https://github.com/helixml/helix-jira">https://github.com/helixml/helix-jira</a>
 
-<p>The AI application yaml may be stored as a file in the root of the repo like <a href="https://github.com/helixml/helix-jira/blob/main/aispec.yaml">this</a>.</p>
+<p>The AI application yaml may be stored as a file in the root of the repo like <a href="https://github.com/helixml/helix-jira/blob/main/helix.yaml">this</a>.</p>
 
 <p>Such a git repo may be connected to AISpec-compliant tooling via, for example, executing the CLI from a CI pipeline like this: <a href="https://github.com/helixml/helix-jira/blob/main/.github/workflows/helix.yml"><strong>GitHub</strong></a>, <a href="https://github.com/helixml/helix-jira/blob/main/.gitlab-ci.yml"><strong>GitLab</strong></a>.</p>
 
