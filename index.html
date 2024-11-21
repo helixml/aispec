@@ -43,11 +43,18 @@ h1 { margin-top: 3em; }
 </head>
 
 <body>
-<h1 style="margin-top:0;">AI Spec Manifesto (aispec.org)</h1>
+<h1 style="margin-top:0;">AISpec.org: Build, test and run GenAI apps</h1>
 <p>The goal of the AI Spec is to make it easier for developers to enrich their applications with Generative AI models packaged with knowledge, integrations into other systems and tests by supporting a common format across many runtimes. The spec defines an <strong>AI Application</strong>, which is intended to live in your version controlled source repository alongside your application code.</p>
 <p>Connect this repo to AISpec-compliant tooling to enable chatbots, embeds, SDKs and APIs for integrating GenAI with open models into your productivity use cases and products.</p>
 
+<blockquote>
+<strong><i>In other words, AISpec is an attempt to represent LLM apps and tests as data (CRDs) and deploy and integrate them into CI/CD and (optionally) <a href="https://github.com/helixml/genai-cicd-ref">Kubernetes with GitOps</a></i></strong>
+</blockquote>
+
 <p>The formal spec is <a href="https://github.com/helixml/helix/blob/main/operator/config/crd/bases/app.aispec.org_aiapps.yaml">here</a> in <code>v1alpha1</code> state and is currently evolving, the remainder of this document illustrates the spec with a series of examples.</p>
+
+<p>There is also a locally runnable GenAI CI/CD for cloud-native reference architecture here on GitHub: <a href="https://github.com/helixml/genai-cicd-ref">helixml/genai-cicd-ref</a></p>
+
 <p>To discuss AISpec, join the <code>#aispec</code> channel on <a href="https://mlops.community">MLOps.Community Slack</a>.</p>
 
 <h2 id="have-assistants">Apps have Assistants</h2>
@@ -56,7 +63,7 @@ h1 { margin-top: 3em; }
 
 <p>An application consists of one or more assistants. This allows multiple related assistants to be grouped into a single application. Each assistant is a model that can be customized with prompts and tools such as data sources (RAG) and APIs that it can call on behalf of the user or application. Assistants can respond with text or structured data.</p>
 
-<h2 id="goal">Goal: enable business users to create version controlled AI apps</h2>
+<h2 id="goal">Goal: enable business users to create version controlled AI apps, then allow DevOps and data science teams to iterate, test and deploy them</h2>
 <video width="950" height="617" controls autoplay muted loop>
   <source src="aispec-app-editor-v2.mp4" type="video/mp4">
   Your browser does not support the video tag.
@@ -390,11 +397,11 @@ export AZURE_OPENAI_API_KEY=&lt;app-specific-key&gt;</pre></code>
 
 <h1 id="version-controlled-configuration-gitops">Version controlled configuration (GitOps)</h1>
 
-<p>An AISpec-compliant application may be published as a git repo. For example: <a href="https://github.com/lukemarsden/example-system-prompt">https://github.com/lukemarsden/example-system-prompt</a>
+<p>An AISpec-compliant application may be published as a git repo. For example: <a href="https://github.com/helixml/helix-jira">https://github.com/helixml/helix-jira</a>
 
-<p>The AI application yaml may be stored as a file in the root of the repo.</p>
+<p>The AI application yaml may be stored as a file in the root of the repo like <a href="https://github.com/helixml/helix-jira/blob/main/aispec.yaml">this</a>.</p>
 
-<p>Such a git repo may be connected to AISpec-compliant tooling via, for example, GitHub integration.</p>
+<p>Such a git repo may be connected to AISpec-compliant tooling via, for example, executing the CLI from a CI pipeline like this: <a href="https://github.com/helixml/helix-jira/blob/main/.github/workflows/helix.yml"><strong>GitHub</strong></a>, <a href="https://github.com/helixml/helix-jira/blob/main/.gitlab-ci.yml"><strong>GitLab</strong></a>.</p>
 
 <img src="github.png" style="width: 950px;" />
 
@@ -405,15 +412,17 @@ export AZURE_OPENAI_API_KEY=&lt;app-specific-key&gt;</pre></code>
 <h1 id="kubernetes-integration-crds">Kubernetes Integration (CRDs)</h1>
 
 <p>Take an AISpec yaml from above, and wrap it in the following template:</p>
-<pre><code class="language-yaml">apiVersion: aispec.org/v1alpha1
+<pre><code class="language-yaml">apiVersion: app.aispec.org/v1alpha1
 kind: AIApp
+metadata:
+  name: exchangerates
 spec:
   &lt;aispec-goes-here&gt;
 </code></pre>
 
 <p>Et voilà, you have a CRD that an AISpec-compliant Kubernetes operator could reconcile against AI apps served from a Kubernetes cluster.</p>
 
-<p>Work is planned to support reconciling AI Apps from CRDs like this using Helix as an operator, with Flux and ArgoCD.</p>
+<p>For a full example of this, see the <a href="https://github.com/helixml/genai-cicd-ref">GenAI CI/CD reference architecture</a> repo, where we do exactly that using FluxCD and an AISpec-compliant operator as an example.</p>
 
 <h1 id="ai-spec-compliant-tooling">AI-spec Compliant Tooling</h1>
 The following tools support at least a subset of the AI Spec.
