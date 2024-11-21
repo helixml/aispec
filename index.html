@@ -167,11 +167,34 @@ assistants:
 
 <h2 id="rag-example-learning-knowledge">RAG example: learning knowledge</h2>
 
-<pre><code class="language-yaml">name: Printer advice tool
-description: Ask me questions about printers
-assistants:
-- model: llama3:instruct
-  rag_source_id: af9b4dc8-cc10-4e21-9a5f-bc1f12b6cab9
+<pre><code class="language-yaml">
+  apiVersion: app.aispec.org/v1alpha1
+  kind: AIApp
+  metadata:
+    name: Printer guide
+  spec:
+    assistants:
+      - model: llama3.1:8b-instruct-q8_0
+        type: text
+        knowledge:
+          - name: printer-guide
+            rag_settings:
+              threshold: 0
+              results_count: 0
+              chunk_size: 0
+              chunk_overflow: 0
+              disable_chunking: false
+              disable_downloading: false
+            source:
+              web:
+                urls:
+                  - https://www.connection.com/content/buying-guide/printer
+                crawler:
+                  enabled: true
+                  max_depth: 1
+                  max_pages: 1
+                  readability: true
+            refresh_schedule: "@hourly"
 </code></pre>
 
 <p style="float:right;"><div class="embed" style="width:380px; float:right;">
